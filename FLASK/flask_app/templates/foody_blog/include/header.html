@@ -12,12 +12,15 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="/">Home</a></li>
-                            <li><a href="/about">자유게시판</a></li>
-                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="/freeBoard">자유게시판</a></li>
                             {% if g.user %}
+                            <li><a href=""></a></li>
+                            <li><a href=""></a></li>
+                            <li><a href=""></a></li>
+                            <li><a href="/contact">{{ g.user.member_email }}님 환영합니다. </a></li>
                             <li><a href="/signin">로그아웃 </a></li>
                             {% else %}
-                            <li><a href="/signin">회원가입/로그인 {{ g.user.member_email }}</a></li>
+                            <li><a href="/signin">회원가입/로그인</a></li>
                             {% endif %}
                         </ul>
                     </nav>

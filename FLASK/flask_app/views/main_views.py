@@ -1,4 +1,4 @@
-from FLASK.flask_app.models import User
+from flask_app.models import User
 from flask_app.forms import MemberLoginForm
 from flask import Blueprint, url_for, render_template, flash, request, session, g
 from flask_app.forms import MemberCreateForm
@@ -12,14 +12,15 @@ bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.before_app_request
 def load_logged_in_user():
-    member_email = session.get('member_email')
-    print("session : ",member_email)
-    if member_email is None:
+    member_id = session.get('member_id')
+    print("session : ",member_id)
+    if member_id is None:
         g.user = None
         print("현재 세션 없음")
     else:
-        g.user = Member.query.get(member_email)
-        # print("세션 저장 완료 :",g.user)
+        # g.user = User.query.get(1)
+        g.user = Member.query.get(member_id)
+        print("세션 저장 완료 :",g.user.member_email)
 
 @bp.route('/')
 def foody_blog_index():
@@ -39,6 +40,9 @@ def foody_blog_categories_list():
 @bp.route('/contact')
 def foody_blog_contact():
     return render_template('foody_blog/contact.html')
+@bp.route('/freeBoard')
+def foody_blog_freeBoard():
+    return render_template('foody_blog/freeBoard/freeBoardList.html')
 @bp.route('/main')
 def foody_blog_main():
     return render_template('foody_blog/main.html')
@@ -93,12 +97,17 @@ def foody_blog_login():
         if error is None:
             print("error is None ")
             session.clear()
-            session['member_email'] = member.member_email
+            # session['member_email'] = member.member_email
+            session['member_id'] = member.member_id
             flash(error)
-            
-            return render_template('foody_blog/index.html',form = form)
+            return redirect(url_for('main.foody_blog_index'))
+            # return render_template('foody_blog/index.html',form = form)
     
     # return render_template('foody_blog/index.html',form = form)
+@bp.route('/logout/')
+def logout():
+    session.clear()
+    return redirect(url_for('main.foody_blog_index'))
 
 @bp.route('/single-post')
 def foody_blog_single_post():
