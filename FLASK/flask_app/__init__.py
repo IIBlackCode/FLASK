@@ -27,9 +27,9 @@ def create_app():
     from . import models
 
         
-    # blueprint
-    # main_views.py에서 url 관리
-    from .views import main_views
+    # blueprint 등록 : url경로 등록
+    from .views import main_views, theme_views
     app.register_blueprint(main_views.bp)    
+    app.register_blueprint(theme_views.bp)    
 
     return app
