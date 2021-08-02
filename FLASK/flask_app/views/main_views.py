@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -27,8 +27,11 @@ def foody_blog_contact():
 @bp.route('/main')
 def foody_blog_main():
     return render_template('foody_blog/main.html')
-@bp.route('/signin')
+@bp.route('/signin', methods=('GET', 'POST'))
 def foody_blog_signin():
+    if request.method == 'POST':
+        print(request)
+        return render_template('foody_blog/signin.html')
     return render_template('foody_blog/signin.html')
 @bp.route('/single-post')
 def foody_blog_single_post():

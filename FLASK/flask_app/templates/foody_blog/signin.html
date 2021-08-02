@@ -51,8 +51,8 @@
                                     <a href="#" class="google"><i class="fa fa-google"></i></a>
                                 </div>
                                 <div class="divide">or</div>
-                                <form action="{% url '/signin'%}">
-                                    <input type="text" placeholder="User Name*" id="username">
+                                <form method="post">
+                                    <input type="text" placeholder="User Name*" name="username" id="username">
                                     <input type="text" placeholder="Password">
                                     <input type="text" placeholder="Confirm Password">
                                     <input type="text" placeholder="Email Address">
