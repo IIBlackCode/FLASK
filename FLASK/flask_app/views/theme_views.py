@@ -3,6 +3,7 @@ from flask import Blueprint, render_template
 bp = Blueprint('theme', __name__, url_prefix='/theme')
 
 #------------------------------ [Theme] ------------------------------#
+'''
 @bp.route('/index')
 def theme_index():
     return render_template('theme/index.html')
@@ -33,3 +34,4 @@ def theme_single_post():
 @bp.route('/typography')
 def theme_typography():
     return render_template('theme/typography.html')
+'''

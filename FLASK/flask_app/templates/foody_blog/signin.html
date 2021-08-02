@@ -3,6 +3,17 @@
 
 <head>
     {% include "foody_blog/include/head.html" %}
+
+    <style>
+    /* 선택 탭 */
+    .signin__form .nav-item .nav-link.active {
+        background: #ffffff;
+    }
+    /* 비선택 탭*/
+    .signin__form .nav-item .nav-link {
+        background: #c9c9c9;
+    }
+    </style>
 </head>
 
 <body class="fixed-position">
@@ -25,14 +36,14 @@
 
                         <!-- href = #tabs-1 -->
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="false">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="false">
                                 Sign up
                             </a>
                         </li>
 
                         <!-- href = #tabs-2 -->
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">
                                 Login
                             </a>
                         </li>
@@ -40,9 +51,9 @@
                         
                     </ul>
                     <div class="tab-content">
-
                         <!-- tabs-1 선택 : 회원가입 양식-->
-                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                        {% block content %}
+                        <div class="tab-pane" id="tabs-1" role="tabpanel">
                             <div class="signin__form__text">
                                 <p>with your social network :</p>
                                 <div class="signin__form__signup__social">
@@ -51,12 +62,14 @@
                                     <a href="#" class="google"><i class="fa fa-google"></i></a>
                                 </div>
                                 <div class="divide">or</div>
-                                <form method="post">
-                                    <input type="text" placeholder="User Name*" name="username" id="username">
-                                    <input type="text" placeholder="Password">
-                                    <input type="text" placeholder="Confirm Password">
-                                    <input type="text" placeholder="Email Address">
-                                    <input type="text" placeholder="Full Name">
+                                <form method="post" action="/signin">
+                                    {{ form.csrf_token }}
+                                    <input type="text" placeholder="Email Address" name="member_email" id="member_email">
+                                    <input type="password" placeholder="Password"  name="member_password" id="member_password">
+                                    <input type="password" placeholder="Confirm Password" name="member_password2" id="member_password2">
+                                    <input style="display: inline-block" type="checkbox" value="한식" name="member_favorite" id="member_favorite">한식
+                                    <input style="display: inline-block" type="checkbox" value="중식" name="member_favorite" id="member_favorite">중식
+                                    <input style="display: inline-block" type="checkbox" value="양식" name="member_favorite" id="member_favorite">양식
                                     <label for="sign-agree-check">
                                         I agree to the terms & conditions
                                         <input type="checkbox" id="sign-agree-check">
@@ -68,7 +81,7 @@
                         </div>
 
                         <!-- tabs-2 선택 : 로그인-->
-                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                        <div class="tab-pane active" id="tabs-2" role="tabpanel">
                             <div class="signin__form__text">
                                 <p>with your social network :</p>
                                 <div class="signin__form__signup__social">
@@ -77,13 +90,15 @@
                                     <a href="#" class="google"><i class="fa fa-google"></i></a>
                                 </div>
                                 <div class="divide">or</div>
-                                <form action="#">
-                                    <input type="text" placeholder="User Name*">
-                                    <input type="text" placeholder="Password">
+                                <form method="post" action="/login">
+                                    {{ form.csrf_token }}
+                                    <input type="text" placeholder="Email Address" name="member_email" id="member_email">
+                                    <input type="password" placeholder="Password"  name="member_password" id="member_password">
                                     <button type="submit" class="site-btn">Sign In</button>
                                 </form>
                             </div>
                         </div>
+                        {% endblock %}
 
                     </div>
                 </div>

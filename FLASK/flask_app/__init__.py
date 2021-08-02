@@ -12,7 +12,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import scoped_session, sessionmaker 
 from sqlalchemy.ext.declarative import declarative_base
 
-
+import os
+SECRET_KEY = os.urandom(32)
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -20,6 +21,7 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
+    app.config['SECRET_KEY'] = SECRET_KEY
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -30,6 +32,6 @@ def create_app():
     # blueprint 등록 : url경로 등록
     from .views import main_views, theme_views
     app.register_blueprint(main_views.bp)    
-    app.register_blueprint(theme_views.bp)    
+    app.register_blueprint(theme_views.bp)
 
     return app
