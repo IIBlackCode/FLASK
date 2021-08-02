@@ -71,6 +71,30 @@
         </div>
     </div>
     
+    <!-- BoardDetail -->
+    <!-- ------------------------------ [edit] -------------------------------- -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <div class="container my-3">
+        <form method="post" class="post-form">
+        <h2 class="border-bottom py-2"> 식당명 : <input type="text" value="{{ board.board_restaurant }}"></h2>
+            
+        <p class="border-bottom py-2"> 작성자 : {{ member.query.get(board.member_id).member_email }}</p>
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="card-text" style="white-space: pre-line;"></div>
+                <textarea class="form-control" name="content" id="content"
+                      rows="10">{{ board.board_comment }}</textarea>
+                
+            </div>
+        </div>
+        <div class="my-3">
+            <a href="/freeBoardUpdate/{{ board.board_number }}/"
+                class="btn btn-sm btn-outline-secondary">수정</a>
+        </div>
+        </form>
+    </div>
+    <!-- ---------------------------------------------------------------------- -->
+    <!-- The end of BoardDetail -->
 
     <!-- The end of Contents-->
     {% include "foody_blog/include/footer.html" %}

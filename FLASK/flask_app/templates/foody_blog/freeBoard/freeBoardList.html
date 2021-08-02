@@ -3,7 +3,7 @@
 
 <head>
     {% include "foody_blog/include/head.html" %}
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
         .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
@@ -48,11 +48,7 @@
     {% include "foody_blog/include/navbar.html" %}
     {% include "foody_blog/include/header.html" %}
 
-    <!-- Contents-->
-    <!--
-        <video autoplay loop muted playsinline src="{{ url_for('static', filename='videoplayback.mp4') }}" id="bgvid" ></video> 
-    -->
-    
+    <!-- 카카오 지도 API -->
     <div class="map_wrap">
         <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
     
@@ -71,6 +67,42 @@
         </div>
     </div>
     
+    <!-- 자유게시판 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <table class="table">
+        <thead>
+            <tr class="thead-dark">
+                <th>No.</th>
+                <th>식당명</th>
+                <th>작성자</th>
+                <th>날짜</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if freeBoardList %}
+        {% for board in freeBoardList %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="/freeBoardRead/{{ board.board_number }}/">{{ board.board_restaurant }}</a></td>
+                <td>{{ member.query.get(board.member_id).member_email }}</td>
+                <td>{{ board.board_date }}</td>
+            </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3">작성된 리뷰가 없습니다.</td>
+            </tr>
+        {% endif %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button class="btn btn-primary"><a>글쓰기</a></button></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container my-3">
+    </div>
 
     <!-- The end of Contents-->
     {% include "foody_blog/include/footer.html" %}
@@ -296,5 +328,4 @@
     }
 </script>
 </body>
-
 </html>

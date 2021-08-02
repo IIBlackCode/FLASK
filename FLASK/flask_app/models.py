@@ -23,12 +23,29 @@ from datetime import datetime
 
 # --------------------------------- [Project Model]] ---------------------------------- #
 class Member(db.Model):
+    # PK
     member_id = db.Column(db.Integer, primary_key=True)
+
     member_email = db.Column(db.String(50), unique=True)
     member_password = db.Column(db.String(200), nullable=False)
     member_favorite = db.Column(db.String(120), nullable=True)
     member_tier = db.Column(db.String(10), default='회원', nullable=True)
     # member_date = db.Column(db.DateTime(), default=datetime.utcnow(), nullable=False)
+
+class Board(db.Model):
+    #PK
+    board_number = db.Column(db.Integer, primary_key=True) # 게시글 넘버
+    #FK
+    member_id = db.Column(db.Integer, db.ForeignKey('member.member_id'))
+
+    board_comment = db.Column(db.String(200), nullable=False) #리뷰 내용
+    board_restaurant = db.Column(db.String(20), nullable=False) #리뷰 식당
+    board_date = db.Column(db.DateTime(), nullable=False) #작성 날짜
+    #board_views = db.Column(db.String(200), nullable=False) #조회 수 컬럼
+
+    
+
+
 # --------------------------------- [Pybo 예제] ---------------------------------- #
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -2,7 +2,7 @@ from flask_app.models import User
 from flask_app.forms import MemberLoginForm
 from flask import Blueprint, url_for, render_template, flash, request, session, g
 from flask_app.forms import MemberCreateForm
-from flask_app.models import Member
+from flask_app.models import Member, Board
 from flask_app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
@@ -40,9 +40,30 @@ def foody_blog_categories_list():
 @bp.route('/contact')
 def foody_blog_contact():
     return render_template('foody_blog/contact.html')
+
+#--------------------------- [자유게시판 관련] ---------------------------#
 @bp.route('/freeBoard')
 def foody_blog_freeBoard():
+    freeBoardList = Board.query.order_by(Board.board_date.desc())
+    return render_template('foody_blog/freeBoard/freeBoardList.html',freeBoardList=freeBoardList,member= Member)
+@bp.route('/freeBoardCreate')
+def foody_blog_freeBoardCreate(board_number):
+    board = Board.query.get(board_number)
+    return render_template('foody_blog/freeBoard/freeBoardCreate.html',board=board,member= Member)
+@bp.route('/freeBoardRead/<int:board_number>/')
+def foody_blog_freeBoardRead(board_number):
+    board = Board.query.get(board_number)
+    return render_template('foody_blog/freeBoard/freeBoardRead.html',board=board,member= Member)
+@bp.route('/freeBoardUpdate/<int:board_number>/')
+def foody_blog_freeBoardUpdate(board_number):
+    board = Board.query.get(board_number)
+    return render_template('foody_blog/freeBoard/freeBoardUpdate.html',board=board,member= Member)
+@bp.route('/freeBoardDelete/<int:board_number>/')
+def foody_blog_freeBoardDelete(board_number):
+    board = Board.query.get(board_number)
     return render_template('foody_blog/freeBoard/freeBoardList.html')
+#--------------------------- ---------------- ---------------------------#
+
 @bp.route('/main')
 def foody_blog_main():
     return render_template('foody_blog/main.html')
