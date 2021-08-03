@@ -59,8 +59,8 @@ def foody_blog_freeBoardCreate():
         print("입력한 board_comment : ",form.board_comment.data)
         board = Board(
             member_id = session.get('member_id'),
-            board_comment = form.board_restaurant.data,
-            board_restaurant = form.board_comment.data,
+            board_restaurant = form.board_restaurant.data,
+            board_comment = form.board_comment.data,
             board_date = datetime.now()
         )
         db.session.add(board)
