@@ -17,6 +17,15 @@ class MemberLoginForm(FlaskForm):
     member_email = EmailField('회원 이메일', validators=[DataRequired(), Length(min=3, max=25)])
     member_password = PasswordField('비밀번호', validators=[DataRequired()])
 
+# 게시판 폼
+class FreeBoardCreate(FlaskForm):
+    board_restaurant = StringField('음식점', validators=[DataRequired(), Length(min=3, max=25)])
+    board_comment = StringField('COMMENT', validators=[DataRequired(), Length(min=3, max=25)])
+
+class FreeBoardUpdate(FlaskForm):
+    board_restaurant = StringField('음식점', validators=[DataRequired(), Length(min=3, max=25)])
+    board_comment = StringField('COMMENT', validators=[DataRequired(), Length(min=3, max=25)])
+
 #----------------------- [플라스크 예제] ----------------------
 # 회원가입 폼
 class UserCreateForm(FlaskForm):

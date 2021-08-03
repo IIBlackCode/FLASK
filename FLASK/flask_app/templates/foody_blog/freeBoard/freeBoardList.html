@@ -97,7 +97,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><button class="btn btn-primary"><a>글쓰기</a></button></td>
+                {% if g.user %}
+                <td><a href="/freeBoardCreate"><button class="btn btn-primary">글쓰기</button></a></td>
+                {% endif %}
             </tr>
         </tbody>
     </table>

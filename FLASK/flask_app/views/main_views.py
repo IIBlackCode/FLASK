@@ -1,26 +1,26 @@
 from flask_app.models import User
 from flask_app.forms import MemberLoginForm
 from flask import Blueprint, url_for, render_template, flash, request, session, g
-from flask_app.forms import MemberCreateForm
+from flask_app.forms import MemberCreateForm, FreeBoardCreate, FreeBoardUpdate
 from flask_app.models import Member, Board
 from flask_app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
-
+from datetime import datetime
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.before_app_request
 def load_logged_in_user():
     member_id = session.get('member_id')
-    print("session : ",member_id)
+    # print("session : ",member_id)
     if member_id is None:
         g.user = None
-        print("현재 세션 없음")
+        # print("현재 세션 없음")
     else:
         # g.user = User.query.get(1)
         g.user = Member.query.get(member_id)
-        print("세션 저장 완료 :",g.user.member_email)
+        # print("세션 저장 완료 :",g.user.member_email)
 
 @bp.route('/')
 def foody_blog_index():
@@ -42,26 +42,58 @@ def foody_blog_contact():
     return render_template('foody_blog/contact.html')
 
 #--------------------------- [자유게시판 관련] ---------------------------#
+#자유게시판 리스트
 @bp.route('/freeBoard')
 def foody_blog_freeBoard():
     freeBoardList = Board.query.order_by(Board.board_date.desc())
     return render_template('foody_blog/freeBoard/freeBoardList.html',freeBoardList=freeBoardList,member= Member)
-@bp.route('/freeBoardCreate')
-def foody_blog_freeBoardCreate(board_number):
-    board = Board.query.get(board_number)
-    return render_template('foody_blog/freeBoard/freeBoardCreate.html',board=board,member= Member)
+
+#자유게시판 쓰기
+@bp.route('/freeBoardCreate', methods=('GET', 'POST'))
+def foody_blog_freeBoardCreate():
+    if request.method == 'GET':
+        return render_template('foody_blog/freeBoard/freeBoardCreate.html',member= Member)
+    form = FreeBoardCreate()
+    if request.method == 'POST':
+        print("입력한 board_restaurant : ",form.board_restaurant.data)
+        print("입력한 board_comment : ",form.board_comment.data)
+        board = Board(
+            member_id = session.get('member_id'),
+            board_comment = form.board_restaurant.data,
+            board_restaurant = form.board_comment.data,
+            board_date = datetime.now()
+        )
+        db.session.add(board)
+        db.session.commit()
+        return redirect(url_for('main.foody_blog_freeBoard'))
+    
+#자유게시판 읽기
 @bp.route('/freeBoardRead/<int:board_number>/')
 def foody_blog_freeBoardRead(board_number):
     board = Board.query.get(board_number)
     return render_template('foody_blog/freeBoard/freeBoardRead.html',board=board,member= Member)
-@bp.route('/freeBoardUpdate/<int:board_number>/')
+
+#자유게시판 수정
+@bp.route('/freeBoardUpdate/<int:board_number>/', methods=('GET', 'POST'))
 def foody_blog_freeBoardUpdate(board_number):
+    form = FreeBoardUpdate()
     board = Board.query.get(board_number)
+    if request.method == 'POST':
+        print("입력한 board_restaurant : ",form.board_restaurant.data)
+        print("입력한 board_comment : ",form.board_comment.data)
+        board.board_restaurant = form.board_restaurant.data
+        board.board_comment = form.board_comment.data
+        db.session.commit()
+        return redirect(url_for('main.foody_blog_freeBoardRead', board_number=board_number))
     return render_template('foody_blog/freeBoard/freeBoardUpdate.html',board=board,member= Member)
+    
+#자유게시판 삭제
 @bp.route('/freeBoardDelete/<int:board_number>/')
 def foody_blog_freeBoardDelete(board_number):
     board = Board.query.get(board_number)
-    return render_template('foody_blog/freeBoard/freeBoardList.html')
+    db.session.delete(board)
+    db.session.commit()
+    return redirect(url_for('main.foody_blog_freeBoard'))
 #--------------------------- ---------------- ---------------------------#
 
 @bp.route('/main')
