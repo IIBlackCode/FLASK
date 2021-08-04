@@ -1,4 +1,4 @@
-set FLASK_APP=flask_app/__init__ 
+set FLASK_APP=flask_app/__init__
 set FLASK_ENV=development
 
 flask db init
@@ -11,3 +11,9 @@ flask db upgrade
 REST API 키	    af5652e09347b55849359455e0f0c225
 JavaScript 키	b0700c148ad0dd813f1bb68cf6c5b566
 Admin 키	    d70e906c784739a1d9f723f3dd319abd
+
+pip install flask
+pip install pymysql
+pip install sqlalchemy
+pip install flask_migrate
+

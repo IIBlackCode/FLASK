@@ -1,15 +1,23 @@
+# import os
+# import sys
+# import inspect
+
+# currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+# parentdir = os.path.dirname(currentdir)
+# sys.path.insert(0, parentdir) 
+
 from flask_app.models import User
 from flask_app.forms import MemberLoginForm
 from flask import Blueprint, url_for, render_template, flash, request, session, g
 from flask_app.forms import MemberCreateForm, FreeBoardCreate, FreeBoardUpdate
 from flask_app.models import Member, Board
-from flask_app import db
+# from flask_app import db
+from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
 from datetime import datetime
 
-bp = Blueprint('main', __name__, url_prefix='/')
-
+bp = Blueprint('main', __name__, url_prefix='/',static_url_path='/static')
 @bp.before_app_request
 def load_logged_in_user():
     member_id = session.get('member_id')
@@ -24,6 +32,7 @@ def load_logged_in_user():
 
 @bp.route('/')
 def foody_blog_index():
+    # print("sys.path",sys.path)
     return render_template('foody_blog/index.html')
 @bp.route('/404')
 def foody_blog_404():

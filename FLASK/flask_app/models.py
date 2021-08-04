@@ -1,5 +1,14 @@
+import os
+import sys
+import inspect
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir) 
+
 from sqlalchemy.ext.declarative import declarative_base
-from flask_app import db
+# from flask_app import db
+from app import db
 from datetime import datetime
 # from sqlalchemy import Column, Integer, String, DateTime
 
