@@ -2,6 +2,8 @@
 
 echo "# FLASK" >> README.md
 
+git clone https://github.com/IIBlackCode/FLASK.git
+
 git init
 
 git add README.md
